@@ -70,7 +70,7 @@ export default function QuestionsScreen() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
-      router.replace('/'); // or your onboarding completion route
+      router.replace('/onboarding/ready'); // or your onboarding completion route
     }
   };
 

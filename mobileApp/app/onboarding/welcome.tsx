@@ -10,9 +10,9 @@ export default function WelcomeScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colorSet.background }]}>
       <Image
-        source={require('@/assets/images/welcome.png')}
-        style={styles.image}
-        resizeMode="contain"
+        source={require('../../assets/images/welcome.png')}
+         style={[styles.image, { backgroundColor: 'red' }]}
+  resizeMode="contain"
       />
       <Text style={[styles.title, { color: colorSet.text }]}>Welcome to the App</Text>
       <Text style={[styles.subtitle, { color: colorSet.muted }]}>

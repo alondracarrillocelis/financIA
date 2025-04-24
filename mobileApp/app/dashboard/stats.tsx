@@ -9,7 +9,7 @@ type ChartPeriod = 'week' | 'month' | 'year';
 export default function StatsScreen() {
     const theme = useColorScheme() ?? 'light';
     const colorSet = Colors[theme];
-    const { name } = useUserInfo();
+    const { firstName, lastName } = useUserInfo();
     const [activePeriod, setActivePeriod] = useState<ChartPeriod>('month');
 
     const totalSpending: Record<ChartPeriod, number> = {
@@ -19,15 +19,15 @@ export default function StatsScreen() {
     };
 
     const expenseCategories = [
-        { category: 'Comida', amount: '$430', percentage: 36, color: '#FF6384' },
-        { category: 'Transporte', amount: '$290', percentage: 24, color: '#36A2EB' },
-        { category: 'Compras', amount: '$260', percentage: 22, color: '#FFCE56' },
-        { category: 'Entretenimiento', amount: '$220', percentage: 18, color: '#4BC0C0' }
+        { category: 'Food', amount: '$430', percentage: 36, color: '#FF6384' },
+        { category: 'Transport', amount: '$290', percentage: 24, color: '#36A2EB' },
+        { category: 'Shopping', amount: '$260', percentage: 22, color: '#FFCE56' },
+        { category: 'Entertainment', amount: '$220', percentage: 18, color: '#4BC0C0' }
     ];
 
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();
-    const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     const monthlySpending = Array(6).fill(0).map((_, index) => {
         const monthIndex = (currentMonth - 5 + index + 12) % 12;
@@ -45,7 +45,9 @@ export default function StatsScreen() {
                     Financial Summary
                 </Text>
                 <Text style={[styles.headerSubtitle, { color: colorSet.muted }]}>
-                    {name ? `${name}'s spending analysis` : 'Your spending analysis'}
+                    {firstName && lastName
+                        ? `${firstName} ${lastName}'s spending analysis`
+                        : 'Your spending analysis'}
                 </Text>
             </View>
 
@@ -70,14 +72,14 @@ export default function StatsScreen() {
             </View>
 
             <View style={[styles.totalCard, { backgroundColor: colorSet.tint }]}>
-                <Text style={styles.totalCardLabel}>Gasto Total</Text>
+                <Text style={styles.totalCardLabel}>Total Spending</Text>
                 <Text style={styles.totalCardAmount}>
-                    ${totalSpending[activePeriod].toLocaleString('es-ES')}
+                    ${totalSpending[activePeriod].toLocaleString('en-US')}
                 </Text>
                 <View style={styles.totalCardFooter}>
                     <Ionicons name="arrow-up" size={14} color="#FF6384" />
                     <Text style={styles.totalCardCompare}>
-                        12% más que el {activePeriod === 'week' ? 'período' : activePeriod === 'month' ? 'mes' : 'año'} anterior
+                        12% more than the previous {activePeriod}
                     </Text>
                 </View>
             </View>
@@ -152,21 +154,10 @@ export default function StatsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-    },
-    headerSection: {
-        marginBottom: 20,
-    },
-    headerTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 4,
-    },
-    headerSubtitle: {
-        fontSize: 16,
-    },
+    container: { flex: 1, padding: 16 },
+    headerSection: { marginBottom: 20 },
+    headerTitle: { fontSize: 24, fontWeight: 'bold', marginBottom: 4 },
+    headerSubtitle: { fontSize: 16 },
     periodSelector: {
         flexDirection: 'row',
         marginBottom: 20,
@@ -180,9 +171,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         alignItems: 'center',
     },
-    periodButtonText: {
-        fontWeight: '600',
-    },
+    periodButtonText: { fontWeight: '600' },
     totalCard: {
         borderRadius: 12,
         padding: 20,
@@ -225,17 +214,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 16,
     },
-    sectionTitle: {
-        fontSize: 18,
-        fontWeight: '600',
-    },
-    sectionAction: {
-        fontSize: 14,
-        fontWeight: '500',
-    },
-    expenseItem: {
-        marginBottom: 12,
-    },
+    sectionTitle: { fontSize: 18, fontWeight: '600' },
+    sectionAction: { fontSize: 14, fontWeight: '500' },
+    expenseItem: { marginBottom: 12 },
     expenseHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -251,13 +232,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginRight: 8,
     },
-    expenseCategory: {
-        fontSize: 15,
-    },
-    expenseAmount: {
-        fontSize: 15,
-        fontWeight: '500',
-    },
+    expenseCategory: { fontSize: 15 },
+    expenseAmount: { fontSize: 15, fontWeight: '500' },
     progressBarBackground: {
         height: 8,
         backgroundColor: '#f0f0f0',

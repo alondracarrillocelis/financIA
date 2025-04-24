@@ -8,10 +8,17 @@ export default function CardDetail() {
   const colorSet = Colors[theme];
   const { id, type, number, balance, expiry } = useLocalSearchParams();
 
+  const simulatedStats = [
+    { label: 'Compras', value: 120 },
+    { label: 'Transporte', value: 60 },
+    { label: 'Comida', value: 150 },
+    { label: 'Entretenimiento', value: 90 },
+  ];
+
   return (
     <View style={[styles.container, { backgroundColor: colorSet.background }]}>
       <Stack.Screen options={{ title: 'Card Details' }} />
-      
+
       <View style={[styles.card, { backgroundColor: colorSet.primary }]}>
         <Text style={styles.cardType}>{type}</Text>
         <Text style={styles.cardNumber}>{number}</Text>
@@ -22,19 +29,30 @@ export default function CardDetail() {
       </View>
 
       <View style={styles.detailsContainer}>
-        <Text style={[styles.detailTitle, { color: colorSet.text }]}>Transaction History</Text>
-        {/* Aquí puedes agregar la lista de transacciones */}
-        <Text style={[styles.comingSoon, { color: colorSet.muted }]}>Coming soon...</Text>
+        <Text style={[styles.detailTitle, { color: colorSet.text }]}>Estadísticas</Text>
+        {simulatedStats.map((stat, idx) => (
+          <View key={idx} style={{ marginBottom: 10 }}>
+            <Text style={{ color: colorSet.text, fontSize: 16 }}>
+              {stat.label}: ${stat.value}
+            </Text>
+            <View style={{ height: 8, backgroundColor: '#eee', borderRadius: 4, overflow: 'hidden' }}>
+              <View
+                style={{
+                  width: `${(stat.value / 200) * 100}%`,
+                  height: '100%',
+                  backgroundColor: colorSet.primary,
+                }}
+              />
+            </View>
+          </View>
+        ))}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
+  container: { flex: 1, padding: 20 },
   card: {
     borderRadius: 15,
     padding: 20,
@@ -42,42 +60,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  cardType: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
+  cardType: { color: 'white', fontSize: 20, fontWeight: 'bold' },
   cardNumber: {
     color: 'rgba(255, 255, 255, 0.9)',
     fontSize: 18,
     letterSpacing: 2,
     marginVertical: 15,
   },
-  cardRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
-  cardBalance: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  cardExpiry: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 16,
-  },
-  detailsContainer: {
-    marginTop: 20,
-  },
-  detailTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 15,
-  },
-  comingSoon: {
-    textAlign: 'center',
-    marginTop: 20,
-    fontSize: 16,
-  },
+  cardRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
+  cardBalance: { color: 'white', fontSize: 24, fontWeight: 'bold' },
+  cardExpiry: { color: 'rgba(255, 255, 255, 0.8)', fontSize: 16 },
+  detailsContainer: { marginTop: 20 },
+  detailTitle: { fontSize: 18, fontWeight: '600', marginBottom: 15 },
 });

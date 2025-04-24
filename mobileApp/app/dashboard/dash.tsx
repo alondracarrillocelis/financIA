@@ -30,7 +30,7 @@ interface Stat {
   percentage: number;
 }
 
-const expenseCategories = ['Comida', 'Transporte', 'Compras', 'Entretenimiento', 'Salud'];
+const expenseCategories = ['Food', 'Transport', 'Shopping', 'Entertainment', 'Health'];
 
 export default function DashboardScreen() {
   const theme = useColorScheme() ?? 'light';
@@ -85,18 +85,18 @@ export default function DashboardScreen() {
 
     const rawNumber = number.replace(/-/g, '');
     if (!/^\d{16}$/.test(rawNumber)) {
-      Alert.alert('Error', 'El número de tarjeta debe tener 16 dígitos numéricos');
+      Alert.alert('Error', 'Card number must be 16 digits');
       return;
     }
 
     if (!/^\d+(\.\d{1,2})?$/.test(balance)) {
-      Alert.alert('Error', 'El balance debe ser un número válido (ej: 1200 o 1200.50)');
+      Alert.alert('Error', 'Balance must be a valid number (e.g. 1200 or 1200.50)');
       return;
     }
 
     const rawExpiry = expiry.replace(/\D/g, '');
     if (rawExpiry.length !== 4) {
-      Alert.alert('Error', 'La fecha de expiración debe tener formato MM/AA');
+      Alert.alert('Error', 'Expiry must be in MM/YY format');
       return;
     }
 
@@ -156,7 +156,7 @@ export default function DashboardScreen() {
 
         <View style={styles.cardsContainer}>
           {cards.length === 0 ? (
-            <Text style={{ color: colorSet.muted }}>No hay tarjetas aún. ¡Agrega una!</Text>
+            <Text style={{ color: colorSet.muted }}>There is any card yet. Add One!</Text>
           ) : (
             cards.map((card) => (
               <View key={card.id} style={styles.cardPressable}>
@@ -175,7 +175,7 @@ export default function DashboardScreen() {
 
         {stats.length > 0 && (
           <>
-            <Text style={[styles.sectionTitle, { color: colorSet.text }]}>Gastos Estimados</Text>
+            <Text style={[styles.sectionTitle, { color: colorSet.text }]}>Estimated Expenses</Text>
             <View style={styles.statsContainer}>
               {stats.map((stat, index) => (
                 <View key={index} style={styles.statItem}>

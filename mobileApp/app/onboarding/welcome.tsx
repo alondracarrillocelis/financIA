@@ -1,18 +1,31 @@
+import { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Pressable, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
+import { useUser } from '../context/UserContext';
+
+export const screenOptions = {
+  headerShown: false,
+};
 
 export default function WelcomeScreen() {
   const router = useRouter();
   const theme = useColorScheme() ?? 'light';
   const colorSet = Colors[theme];
+  const { isRegistered } = useUser();
+
+  useEffect(() => {
+    if (isRegistered) {
+      router.replace('/dashboard/dash'); // Redirige si ya está registrado
+    }
+  }, [isRegistered]);
 
   return (
     <View style={[styles.container, { backgroundColor: colorSet.background }]}>
       <Image
         source={require('../../assets/images/welcome.png')}
-         style={[styles.image, { backgroundColor: 'red' }]}
-  resizeMode="contain"
+        style={styles.image}
+        resizeMode="contain"
       />
       <Text style={[styles.title, { color: colorSet.text }]}>Welcome to the App</Text>
       <Text style={[styles.subtitle, { color: colorSet.muted }]}>
@@ -31,6 +44,10 @@ export default function WelcomeScreen() {
       >
         <Text style={styles.buttonText}>Get Started</Text>
       </Pressable>
+
+      <Text style={[styles.signInText, { color: colorSet.primary }]}>
+        Sign In
+      </Text>
     </View>
   );
 }
@@ -68,5 +85,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     fontSize: 16,
+  },
+  signInText: {
+    marginTop: 20,
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });

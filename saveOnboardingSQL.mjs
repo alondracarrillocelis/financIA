@@ -8,7 +8,6 @@ const {
   DB_PORT = '5432'
 } = process.env;
 
-// Creamos un pool que maneja el reuso de conexiones entre invocaciones
 const pool = new Pool({
   host:     DB_HOST,
   user:     DB_USER,

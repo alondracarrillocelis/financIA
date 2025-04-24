@@ -29,7 +29,7 @@ export default function WelcomeScreen() {
       />
       <Text style={[styles.title, { color: colorSet.text }]}>Welcome to the App</Text>
       <Text style={[styles.subtitle, { color: colorSet.muted }]}>
-        Your journey starts here. Let's set up your profile.
+        Your journey starts here. Let's set up your profile.aaaa
       </Text>
 
       <Pressable

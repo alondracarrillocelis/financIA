@@ -1,14 +1,14 @@
-import { AppProvider } from './context/AppProvider';
 import { Stack } from 'expo-router';
+import { UserInfoProvider } from './context/UserInfoContext';
 
 export default function RootLayout() {
   return (
-    <AppProvider>
+    <UserInfoProvider>
       <Stack
         screenOptions={{
           headerShown: false,
         }}
       />
-    </AppProvider>
+    </UserInfoProvider>
   );
 }

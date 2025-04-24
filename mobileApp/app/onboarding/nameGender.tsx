@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from 'react-native';
 import { useUserInfo } from '../context/UserInfoContext';
 
-
 export default function NameGenderScreen() {
-//   const [name, setName] = useState('');
-//   const [gender, setGender] = useState<'male' | 'female' | null>(null);
   const router = useRouter();
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
-  const { name, gender, setName, setGender } = useUserInfo();
-
-
-  const isFormComplete = name.trim() !== '' && gender !== null;
+  const { firstName, setFirstName, gender, setGender, isRegistered } = useUserInfo();
 
   return (
     <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
@@ -24,8 +18,8 @@ export default function NameGenderScreen() {
         style={[styles.input, { borderColor: Colors[theme].text, color: Colors[theme].text }]}
         placeholder="Enter your name"
         placeholderTextColor={Colors[theme].text + '80'}
-        value={name}
-        onChangeText={setName}
+        value={firstName}
+        onChangeText={setFirstName}
       />
 
       <Text style={[styles.label, { color: Colors[theme].text, marginTop: 24 }]}>Choose your gender</Text>
@@ -56,11 +50,11 @@ export default function NameGenderScreen() {
 
       <Pressable
         onPress={() => router.push('/onboarding/questions')}
-        disabled={!isFormComplete}
+        disabled={!isRegistered}
         style={({ pressed }) => [
           styles.button,
           {
-            backgroundColor: isFormComplete
+            backgroundColor: isRegistered
               ? Colors[theme].tint
               : Colors[theme].tint + '60',
             opacity: pressed ? 0.8 : 1,

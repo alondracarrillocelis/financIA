@@ -7,6 +7,8 @@ const Colors = {
     muted: '#ACA7A1',
     tint: '#C09B69',
     white: '#FFFFFF',
+    border: '#D1D1D6',
+    card: '#FFFFFF', // <- nuevo
   },
   dark: {
     primary: '#C09B69',
@@ -16,7 +18,10 @@ const Colors = {
     muted: '#ACA7A1',
     tint: '#C09B69',
     white: '#FFFFFF',
+    border: '#3A3A3C',
+    card: '#2C2C2E', // <- nuevo
   },
 };
+
 
 export default Colors;

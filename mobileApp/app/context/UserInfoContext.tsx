@@ -1,17 +1,16 @@
-// context/UserInfoContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 
 type Gender = 'male' | 'female' | null;
 
 interface UserInfoContextType {
-  name: string;
+  firstName: string;
+  lastName: string;
   gender: Gender;
-  fullName: string;
   age: string;
   email: string;
-  setName: (name: string) => void;
+  setFirstName: (name: string) => void;
+  setLastName: (name: string) => void;
   setGender: (gender: Gender) => void;
-  setFullName: (name: string) => void;
   setAge: (age: string) => void;
   setEmail: (email: string) => void;
   isRegistered: boolean;
@@ -20,26 +19,26 @@ interface UserInfoContextType {
 const UserInfoContext = createContext<UserInfoContextType | undefined>(undefined);
 
 export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [gender, setGender] = useState<Gender>(null);
-  const [fullName, setFullName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
 
   const isRegistered = useMemo(() => {
-    return name.trim() !== '' && gender !== null;
-  }, [name, gender]);
+    return firstName.trim() !== '' && gender !== null;
+  }, [firstName, gender]);
 
   return (
     <UserInfoContext.Provider value={{
-      name,
+      firstName,
+      lastName,
       gender,
-      fullName,
       age,
       email,
-      setName,
+      setFirstName,
+      setLastName,
       setGender,
-      setFullName,
       setAge,
       setEmail,
       isRegistered,

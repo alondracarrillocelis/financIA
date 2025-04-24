@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Pressable, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
-import { useAppState } from '../context/AppStateContext';
 
 export const screenOptions = {
   headerShown: false,
@@ -12,14 +10,6 @@ export default function WelcomeScreen() {
   const router = useRouter();
   const theme = useColorScheme() ?? 'light';
   const colorSet = Colors[theme];
-  const { isRegistered } = useAppState();
-
-
-  useEffect(() => {
-    if (isRegistered) {
-      router.replace('/dashboard/dash'); // Redirige si ya está registrado
-    }
-  }, [isRegistered]);
 
   return (
     <View style={[styles.container, { backgroundColor: colorSet.background }]}>

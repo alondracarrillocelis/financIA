@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useUserInfo } from '../context/UserInfoContext';
 
-
 export default function RegisterScreen() {
-
-  const { fullName, age, email, setFullName, setAge, setEmail } = useUserInfo();
+  const {
+    firstName,
+    lastName,
+    age,
+    email,
+    setFirstName,
+    setLastName,
+    setAge,
+    setEmail,
+  } = useUserInfo();
 
   const router = useRouter();
   const theme = useColorScheme() ?? 'light';
 
-  const isFormComplete = fullName && age && email;
+  const isFormComplete = firstName && lastName && age && email;
 
   const handleSubmit = () => {
-    // Aquí puedes guardar los datos o enviarlos a una API
-    router.replace('/dashboard/dash'); // Cambia a la pantalla final o dashboard
+    router.replace('/dashboard/dash');
   };
 
   return (
@@ -26,10 +32,18 @@ export default function RegisterScreen() {
 
       <TextInput
         style={[styles.input, { borderColor: Colors[theme].text, color: Colors[theme].text }]}
-        placeholder="Full Name"
+        placeholder="First Name"
         placeholderTextColor={Colors[theme].text + '80'}
-        value={fullName}
-        onChangeText={setFullName}
+        value={firstName}
+        onChangeText={setFirstName}
+      />
+
+      <TextInput
+        style={[styles.input, { borderColor: Colors[theme].text, color: Colors[theme].text }]}
+        placeholder="Last Name"
+        placeholderTextColor={Colors[theme].text + '80'}
+        value={lastName}
+        onChangeText={setLastName}
       />
 
       <TextInput

@@ -157,3 +157,13 @@ When developing branches that interact with AWS services:
 2. Integration tests against shared AWS resources should only occur in `develop`
 3. Infrastructure as Code (IaC) changes should follow the same branching pattern
 4. Secure credentials must never be committed to any branch
+
+## 7. Contact Information
+
+For questions related to branch management and code contributions, please contact:
+
+- **Project Technical Lead**: hugoperez510@hotmail.com
+- **Mobile Development Team**: polloyon.pro@gmail.com
+- **DevOps Team**: alexnuevo040@gmail.com Urielalvaro3@gmail.com
+- - **QA Team**: adrianrochacon@gmail.com
+

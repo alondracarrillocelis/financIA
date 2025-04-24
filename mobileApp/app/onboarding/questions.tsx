@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from 'react-native';
-import { useUser } from '../context/UserContext';
+import { useUserInfo } from '../context/UserInfoContext';
 
 export default function QuestionsScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
-  const { name } = useUser();
+  const { name } = useUserInfo();
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<(string | null)[]>(Array(9).fill(null));

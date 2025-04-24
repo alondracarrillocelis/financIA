@@ -3,43 +3,23 @@ import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import Colors from '@/constants/Colors';
-import { useUserInfo } from '../context/UserInfoContext';
 
-
-export default function RegisterScreen() {
-
-  const { fullName, age, email, setFullName, setAge, setEmail } = useUserInfo();
-
+export default function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
   const theme = useColorScheme() ?? 'light';
 
-  const isFormComplete = fullName && age && email;
+  const isFormComplete = email && password;
 
-  const handleSubmit = () => {
-    // Aquí puedes guardar los datos o enviarlos a una API
-    router.replace('/dashboard/dash'); // Cambia a la pantalla final o dashboard
+  const handleLogin = () => {
+    // Aquí podrías validar las credenciales o hacer login simulado
+    router.replace('/dashboard/dash');
   };
 
   return (
     <View style={[styles.container, { backgroundColor: Colors[theme].background }]}>
-      <Text style={[styles.title, { color: Colors[theme].text }]}>Complete your profile</Text>
-
-      <TextInput
-        style={[styles.input, { borderColor: Colors[theme].text, color: Colors[theme].text }]}
-        placeholder="Full Name"
-        placeholderTextColor={Colors[theme].text + '80'}
-        value={fullName}
-        onChangeText={setFullName}
-      />
-
-      <TextInput
-        style={[styles.input, { borderColor: Colors[theme].text, color: Colors[theme].text }]}
-        placeholder="Age"
-        placeholderTextColor={Colors[theme].text + '80'}
-        keyboardType="numeric"
-        value={age}
-        onChangeText={setAge}
-      />
+      <Text style={[styles.title, { color: Colors[theme].text }]}>Log In</Text>
 
       <TextInput
         style={[styles.input, { borderColor: Colors[theme].text, color: Colors[theme].text }]}
@@ -51,8 +31,17 @@ export default function RegisterScreen() {
         onChangeText={setEmail}
       />
 
+      <TextInput
+        style={[styles.input, { borderColor: Colors[theme].text, color: Colors[theme].text }]}
+        placeholder="Password"
+        placeholderTextColor={Colors[theme].text + '80'}
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+
       <Pressable
-        onPress={handleSubmit}
+        onPress={handleLogin}
         disabled={!isFormComplete}
         style={({ pressed }) => [
           styles.button,
@@ -64,7 +53,7 @@ export default function RegisterScreen() {
           },
         ]}
       >
-        <Text style={styles.buttonText}>Finish</Text>
+        <Text style={styles.buttonText}>Log In</Text>
       </Pressable>
     </View>
   );

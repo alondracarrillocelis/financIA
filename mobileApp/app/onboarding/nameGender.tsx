@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from 'react-native';
-import { useUser } from '../context/UserContext';
+import { useUserInfo } from '../context/UserInfoContext';
 
 
 export default function NameGenderScreen() {
@@ -12,7 +12,7 @@ export default function NameGenderScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
-  const { name, gender, setName, setGender } = useUser();
+  const { name, gender, setName, setGender } = useUserInfo();
 
 
   const isFormComplete = name.trim() !== '' && gender !== null;

@@ -1,44 +1,35 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, useColorScheme, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  useColorScheme,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import Colors from '@/constants/Colors';
-import { useUser } from '../context/UserContext';
+import { useUserInfo } from '../context/UserInfoContext';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useCards } from '../context/useCards';
 
 export default function DashboardScreen() {
   const router = useRouter();
   const theme = useColorScheme() ?? 'light';
   const colorSet = Colors[theme];
-  const { name, gender } = useUser();
+  const { name, gender } = useUserInfo();
+  const { cards, addCard } = useCards();
 
-  // Datos falsos para las tarjetas
-  const cards = [
-    {
-      id: 1,
-      type: 'Visa',
-      number: '•••• •••• •••• 1234',
-      balance: '$2,450.50',
-      expiry: '09/25',
-      color: '#3A5A78'
-    },
-    {
-      id: 2,
-      type: 'Mastercard',
-      number: '•••• •••• •••• 5678',
-      balance: '$1,230.75',
-      expiry: '12/24',
-      color: '#6D4C41'
-    }
-  ];
 
-  // Estadísticas falsas
   const stats = [
-    { category: 'Food', amount: '$420', percentage: 35 },
-    { category: 'Transport', amount: '$300', percentage: 25 },
-    { category: 'Shopping', amount: '$280', percentage: 23 },
-    { category: 'Entertainment', amount: '$200', percentage: 17 }
+    { category: 'Comida', amount: '$430', percentage: 36 },
+    { category: 'Transporte', amount: '$290', percentage: 24 },
+    { category: 'Compras', amount: '$260', percentage: 22 },
+    { category: 'Entretenimiento', amount: '$220', percentage: 18 }
   ];
 
-  // Obtener icono según género
   const getGenderIcon = () => {
     switch (gender) {
       case 'male':
@@ -50,19 +41,25 @@ export default function DashboardScreen() {
     }
   };
 
-  // Mensaje motivacional basado en la hora del día
   const getMotivationalMessage = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning! Time to conquer your financial goals!';
     if (hour < 18) return 'Good afternoon! Keep up with your savings!';
     return 'Good evening! Review your daily progress!';
   };
-
-  const handleCardPress = (card: any) => {
+  interface Card {
+    id: string;
+    type: string;
+    number: string;
+    balance: string;
+    expiry: string;
+    color: string;
+  }
+  const handleCardPress = (card: Card) => {
     router.push({
       pathname: '/dashboard/cardDetail',
       params: {
-        id: card.id.toString(),
+        id: card.id,
         type: card.type,
         number: card.number,
         balance: card.balance,
@@ -72,47 +69,53 @@ export default function DashboardScreen() {
     });
   };
 
+
   return (
     <ScrollView style={[styles.container, { backgroundColor: colorSet.background }]}>
-      {/* Sección de perfil */}
       <View style={styles.profileSection}>
-        <Image 
-          source={getGenderIcon()} 
-          style={styles.profileIcon} 
-          resizeMode="contain"
-        />
+        <Image source={getGenderIcon()} style={styles.profileIcon} resizeMode="contain" />
         <Text style={[styles.userName, { color: colorSet.text }]}>{name || 'User'}</Text>
         <Text style={[styles.motivationText, { color: colorSet.muted }]}>
           {getMotivationalMessage()}
         </Text>
       </View>
 
-      {/* Sección de tarjetas */}
-      <Text style={[styles.sectionTitle, { color: colorSet.text }]}>Your Cards</Text>
-      <View style={styles.cardsContainer}>
-        {cards.map((card) => (
-          <Pressable
-            key={card.id}
-            onPress={() => handleCardPress(card)}
-            style={({ pressed }) => [
-              styles.cardPressable,
-              { opacity: pressed ? 0.8 : 1 }
-            ]}
-          >
-            <View style={[styles.card, { backgroundColor: card.color }]}>
-              <Text style={styles.cardType}>{card.type}</Text>
-              <Text style={styles.cardNumber}>{card.number}</Text>
-              <View style={styles.cardRow}>
-                <Text style={styles.cardBalance}>{card.balance}</Text>
-                <Text style={styles.cardExpiry}>Exp: {card.expiry}</Text>
-              </View>
-            </View>
-          </Pressable>
-        ))}
+      <View style={styles.headerRow}>
+        <Text style={[styles.sectionTitle, { color: colorSet.text }]}>Your Cards</Text>
+        <TouchableOpacity onPress={() => 
+          router.push('/addCard')}>
+          <Ionicons name="add-circle-outline" size={28} color={colorSet.primary} />
+        </TouchableOpacity>
+
       </View>
 
-      {/* Sección de estadísticas */}
-      <Text style={[styles.sectionTitle, { color: colorSet.text }]}>Monthly Expenses</Text>
+      <View style={styles.cardsContainer}>
+        {cards.length === 0 ? (
+          <Text style={{ color: colorSet.muted }}>No hay tarjetas aún. ¡Agrega una!</Text>
+        ) : (
+          cards.map((card) => (
+            <Pressable
+              key={card.id}
+              onPress={() => handleCardPress(card)}
+              style={({ pressed }) => [
+                styles.cardPressable,
+                { opacity: pressed ? 0.8 : 1 }
+              ]}
+            >
+              <View style={[styles.card, { backgroundColor: card.color }]}>
+                <Text style={styles.cardType}>{card.type}</Text>
+                <Text style={styles.cardNumber}>{card.number}</Text>
+                <View style={styles.cardRow}>
+                  <Text style={styles.cardBalance}>{card.balance}</Text>
+                  <Text style={styles.cardExpiry}>Exp: {card.expiry}</Text>
+                </View>
+              </View>
+            </Pressable>
+          ))
+        )}
+      </View>
+
+      <Text style={[styles.sectionTitle, { color: colorSet.text }]}>Gastos Mensuales</Text>
       <View style={styles.statsContainer}>
         {stats.map((stat, index) => (
           <View key={index} style={styles.statItem}>
@@ -121,17 +124,19 @@ export default function DashboardScreen() {
               <Text style={[styles.statAmount, { color: colorSet.text }]}>{stat.amount}</Text>
             </View>
             <View style={styles.progressBarBackground}>
-              <View 
+              <View
                 style={[
                   styles.progressBarFill,
-                  { 
+                  {
                     width: `${stat.percentage}%`,
                     backgroundColor: colorSet.primary
                   }
                 ]}
               />
             </View>
-            <Text style={[styles.statPercentage, { color: colorSet.muted }]}>{stat.percentage}%</Text>
+            <Text style={[styles.statPercentage, { color: colorSet.muted }]}>
+              {stat.percentage}%
+            </Text>
           </View>
         ))}
       </View>
@@ -164,10 +169,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 40,
   },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
-    marginBottom: 15,
   },
   cardsContainer: {
     marginBottom: 30,

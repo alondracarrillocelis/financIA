@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Pressable, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '@/constants/Colors';
-import { useUser } from '../context/UserContext';
+import { useAppState } from '../context/AppStateContext';
 
 export const screenOptions = {
   headerShown: false,
@@ -12,7 +12,8 @@ export default function WelcomeScreen() {
   const router = useRouter();
   const theme = useColorScheme() ?? 'light';
   const colorSet = Colors[theme];
-  const { isRegistered } = useUser();
+  const { isRegistered } = useAppState();
+
 
   useEffect(() => {
     if (isRegistered) {
@@ -29,7 +30,7 @@ export default function WelcomeScreen() {
       />
       <Text style={[styles.title, { color: colorSet.text }]}>Welcome to the App</Text>
       <Text style={[styles.subtitle, { color: colorSet.muted }]}>
-        Your journey starts here. Let's set up your profile.aaaa
+        Your journey starts here. Let's set up your profile.
       </Text>
 
       <Pressable
@@ -45,9 +46,11 @@ export default function WelcomeScreen() {
         <Text style={styles.buttonText}>Get Started</Text>
       </Pressable>
 
-      <Text style={[styles.signInText, { color: colorSet.primary }]}>
-        Sign In
-      </Text>
+      <Pressable onPress={() => router.push('/onboarding/logIn')}>
+        <Text style={[styles.signInText, { color: colorSet.primary }]}>
+          Sign In
+        </Text>
+      </Pressable>
     </View>
   );
 }

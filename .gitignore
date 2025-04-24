@@ -1,8 +1,0 @@
-# React Native
-node_modules/
-android/.gradle/
-android/app/build/
-ios/Pods/
-*.log
-*.keystore
-.env
